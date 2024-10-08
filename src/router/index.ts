@@ -9,9 +9,31 @@ const router = createRouter({
       component: () => import('@/views/IndexView.vue'),
       children: [
         {
+          path: '/',
+          name: 'workspace',
+          component: () => import('@/views/WorkspaceView.vue')
+        },
+        {
           path: '/repos',
           name: 'repos',
-          component: () => import('@/views/ReposView.vue')
+          component: () => import('@/views/ReposView.vue'),
+          children: [
+            {
+              path: '/repos/',
+              name: 'overview',
+              component: () => import('@/views/Repos/OverviewView.vue')
+            },
+            {
+              path: '/repos/recent',
+              name: 'recent',
+              component: () => import('@/views/Repos/RecentView.vue')
+            },
+            {
+              path: '/repos/openSource',
+              name: 'openSource',
+              component: () => import('@/views/Repos/OpenSourceView.vue')
+            }
+          ]
         }
       ]
     },
