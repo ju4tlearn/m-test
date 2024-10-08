@@ -3,9 +3,9 @@ import LayoutItem from '@/components/LayoutItem.vue'
 </script>
 
 <template>
-  <div class="h-screen">
+  <div class="h-screen relative">
     <LayoutItem />
-    <div class="pl-16">
+    <div class="h-full pl-16">
       <RouterView />
     </div>
   </div>
