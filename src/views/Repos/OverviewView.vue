@@ -13,7 +13,7 @@ const getRepos = async () => {
   })
 }
 
-// getRepos()
+getRepos()
 </script>
 
 <template>
@@ -64,5 +64,27 @@ const getRepos = async () => {
       <button class="btn btn-neutral">创建代码仓库</button>
     </div>
   </div>
-  <div v-else></div>
+  <div v-else class="flex p-4">
+    <div class="overview-x-auto w-full">
+      <table class="table">
+        <thead>
+          <tr>
+            <th>仓库名称</th>
+            <th>所属项目</th>
+            <th>合并请求</th>
+            <th>更新时间</th>
+            <th>操作</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr v-for="repo in repos" :key="repo.id">
+            <td>{{ repo.name }}</td>
+            <td></td>
+            <td></td>
+            <td>{{ repo.updated_at }}</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
 </template>
