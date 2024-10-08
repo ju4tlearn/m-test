@@ -31,12 +31,12 @@ const toggleTab = (item: TabItem) => {
 </script>
 
 <template>
-  <div>
+  <div class="h-full">
     <div class="px-6 py-4 border-b">
       <span class="font-semibold text-lg">代码仓库</span>
     </div>
 
-    <div>
+    <div class="h-full">
       <div class="flex items-center justify-between px-4">
         <div role="tablist" class="tabs tabs-bordered tabs-lg gap-10">
           <a
@@ -51,7 +51,7 @@ const toggleTab = (item: TabItem) => {
           </a>
         </div>
 
-        <button class="btn btn-sm btn-primary">创建代码仓库</button>
+        <button class="btn btn-sm btn-neutral">创建代码仓库</button>
       </div>
       <div class="h-[1px] w-full bg-base-content/5"></div>
 
