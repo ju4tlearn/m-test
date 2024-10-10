@@ -69,4 +69,16 @@ export class UserService {
       })
       .json<CreateRepoResponse>()
   }
+
+  public static starRepo(accessToken: string, owner: string, repo: string) {
+    return useFetch(`https://gitee.com/api/v5/user/starred/${owner}/${repo}`).put({
+      access_token: accessToken
+    })
+  }
+
+  public static deleteRepo(accessToken: string, owner: string, repo: string) {
+    return useFetch(`https://gitee.com/api/v5/repos/${owner}/${repo}`).delete({
+      access_token: accessToken
+    })
+  }
 }

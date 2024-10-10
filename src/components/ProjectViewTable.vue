@@ -44,9 +44,22 @@ const timeAgo = (time: string) => {
   }
 }
 
-const starRepo = async () => {}
+const starRepo = async (owner: string, repo: string) => {
+  const token = localStorage.getItem('accessToken') ?? ''
+  const { response } = await UserService.starRepo(token, owner, repo)
+  if (response.value && response.value.status === 204) {
+    await getRepos(props.visibility)
+  }
+}
 
-const deleteRepo = async () => {}
+const deleteRepo = async (owner: string, repo: string) => {
+  const token = localStorage.getItem('accessToken') ?? ''
+  const { response } = await UserService.deleteRepo(token, owner, repo)
+  if (response.value && response.value.status === 204) {
+    alert('删除成功')
+    await getRepos(props.visibility)
+  }
+}
 </script>
 
 <template>
@@ -77,7 +90,10 @@ const deleteRepo = async () => {}
             <td>{{ repo.open_issues_count }}</td>
             <td>{{ timeAgo(repo.updated_at) }}</td>
             <td class="flex items-center gap-2">
-              <button class="btn btn-square btn-ghost btn-xs">
+              <button
+                class="btn btn-square btn-ghost btn-xs"
+                @click="starRepo(repo.assigner.name, repo.name)"
+              >
                 <Icon
                   icon="material-symbols:star"
                   class="size-4"
@@ -85,7 +101,10 @@ const deleteRepo = async () => {}
                 />
               </button>
 
-              <button class="btn btn-square btn-ghost btn-xs">
+              <button
+                class="btn btn-square btn-ghost btn-xs"
+                @click="deleteRepo(repo.assigner.name, repo.name)"
+              >
                 <Icon icon="mdi:rubbish-bin-outline" class="size-4" />
               </button>
             </td>
