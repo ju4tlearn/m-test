@@ -8,7 +8,6 @@ import 'swiper/css'
 import { Autoplay, Pagination } from 'swiper/modules'
 
 const imgs = ['./login/1.png', './login/2.png', './login/3.png']
-const showImg = Math.floor(Math.random() * 3) + 1
 
 const account = ref()
 const password = ref()
