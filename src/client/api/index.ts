@@ -1,5 +1,5 @@
 import { useFetch } from '@vueuse/core'
-import type { GetUserInfoResponse, RepoInfo, LoginResponse } from './models'
+import type { GetUserInfoResponse, RepoInfo, LoginResponse, CreateRepoResponse } from './models'
 
 export class AuthService {
   public static login(
@@ -23,7 +23,7 @@ export class AuthService {
 }
 
 export class UserService {
-  public static async getUserInfo(accessToken: string) {
+  public static getUserInfo(accessToken: string) {
     return useFetch(`https://gitee.com/api/v5/user?access_token=${accessToken}`)
       .get()
       .json<GetUserInfoResponse>()
@@ -48,5 +48,25 @@ export class UserService {
     if (q) url += `&q=${q}`
 
     return useFetch(url).get().json<RepoInfo[]>()
+  }
+
+  public static createRepo(
+    accessToken: string,
+    name: string,
+    desc: string,
+    autoInit: boolean,
+    isPrivate: boolean,
+    gitignoreTemplate?: string
+  ) {
+    return useFetch('https://gitee.com/api/v5/user/repos')
+      .post({
+        access_token: accessToken,
+        name: name,
+        description: desc,
+        auto_init: autoInit,
+        private: isPrivate,
+        ...(gitignoreTemplate && { gitignore_template: gitignoreTemplate })
+      })
+      .json<CreateRepoResponse>()
   }
 }

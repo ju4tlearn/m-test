@@ -1,24 +1,18 @@
 <script setup lang="ts">
-import { UserService } from '@/client/api'
-import type { RepoInfo } from '@/client/api/models'
+import ProjectViewTable from '@/components/ProjectViewTable.vue'
+import router from '@/router'
 import { Icon } from '@iconify/vue/dist/iconify.js'
 import { ref } from 'vue'
 
-const repos = ref<RepoInfo[]>([])
+const repoCount = ref(0)
 
-const getRepos = async () => {
-  const token = localStorage.getItem('accessToken') ?? ''
-  const { data } = await UserService.getUserRepos(token, 'all')
-  if (data.value) {
-    repos.value = data.value
-  }
+const getRepoCount = (v: number) => {
+  repoCount.value = v
 }
-
-getRepos()
 </script>
 
 <template>
-  <div v-if="!repos.length" class="w-full h-full flex justify-center">
+  <div v-if="!repoCount" class="w-full h-full flex justify-center">
     <div class="flex flex-col items-center justify-center gap-8">
       <div class="flex flex-col justify-center items-center gap-4">
         <h3 class="font-semibold text-2xl">欢迎使用代码仓库</h3>
@@ -62,30 +56,12 @@ getRepos()
         </div>
       </div>
 
-      <button class="btn btn-neutral">创建代码仓库</button>
+      <button class="btn btn-neutral" @click="router.push('/repos/create')">创建代码仓库</button>
     </div>
   </div>
-  <div v-else class="flex p-4">
-    <div class="overview-x-auto w-full">
-      <table class="table">
-        <thead>
-          <tr>
-            <th>仓库名称</th>
-            <th>所属项目</th>
-            <th>合并请求</th>
-            <th>更新时间</th>
-            <th>操作</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr v-for="repo in repos" :key="repo.id">
-            <td>{{ repo.name }}</td>
-            <td></td>
-            <td></td>
-            <td>{{ repo.updated_at }}</td>
-          </tr>
-        </tbody>
-      </table>
-    </div>
-  </div>
+  <ProjectViewTable
+    visibility="all"
+    v-on:repo-count="getRepoCount"
+    :class="{ hidden: !repoCount }"
+  />
 </template>

@@ -19,19 +19,26 @@ const router = createRouter({
           component: () => import('@/views/ReposView.vue'),
           children: [
             {
-              path: '/repos/',
-              name: 'overview',
-              component: () => import('@/views/Repos/OverviewView.vue')
+              path: '/repos/create',
+              component: () => import('@/views/Repos/CreateRepoView.vue')
             },
             {
-              path: '/repos/recent',
-              name: 'recent',
-              component: () => import('@/views/Repos/RecentView.vue')
-            },
-            {
-              path: '/repos/openSource',
-              name: 'openSource',
-              component: () => import('@/views/Repos/OpenSourceView.vue')
+              path: '/repos',
+              component: () => import('@/views/Repos/ReposViewIndex.vue'),
+              children: [
+                {
+                  path: '/repos',
+                  component: () => import('@/views/Repos/OverviewView.vue')
+                },
+                {
+                  path: '/repos/recent',
+                  component: () => import('@/views/Repos/RecentView.vue')
+                },
+                {
+                  path: '/repos/openSource',
+                  component: () => import('@/views/Repos/OpenSourceView.vue')
+                }
+              ]
             }
           ]
         }
