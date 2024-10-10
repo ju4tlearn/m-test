@@ -8,24 +8,34 @@ const showImg = Math.floor(Math.random() * 3) + 1
 
 const account = ref()
 const password = ref()
-const clientID = '618c693f772f306e0b303d1c8d5cc2f6350f73db98f1700bcfd3fc80163e0aa0'
-const clientSecret = '4ccdaa886bcd0faf0a2310b8de12ca416ed1edb5ded46449be2c0ece9de7d1ed'
+const clientID = import.meta.env.VITE_CLIENT_ID
+const clientSecret = import.meta.env.VITE_CLIENT_SECRET
 const acceptTerm = ref(false)
 
 const login = async () => {
   const scope = 'user_info projects'
-  await AuthService.login(account.value, password.value, clientID, clientSecret, scope).then(
-    (resp) => {
-      const data = resp!
-      alert('登陆成功')
-      localStorage.setItem('accessToken', data.access_token)
-      localStorage.setItem('tokenType', data.token_type)
-      localStorage.setItem('expiresIn', data.expires_in.toString())
-      localStorage.setItem('scope', data.scope)
-      localStorage.setItem('isLogin', '1')
-      router.push('/')
-    }
+  const { data, error, response } = await AuthService.login(
+    account.value,
+    password.value,
+    clientID,
+    clientSecret,
+    scope
   )
+
+  if (error.value && response.value) {
+    alert('登陆失败, code: ' + response.value.status)
+    return
+  }
+
+  if (data.value) {
+    const _data = data.value
+    localStorage.setItem('accessToken', _data.access_token)
+    localStorage.setItem('tokenType', _data.token_type)
+    localStorage.setItem('expiresIn', _data.expires_in.toString())
+    localStorage.setItem('scope', _data.scope)
+    localStorage.setItem('isLogin', '1')
+    router.push('/')
+  }
 }
 </script>
 
@@ -59,16 +69,24 @@ const login = async () => {
             <input
               required
               type="checkbox"
-              class="checkbox checkbox-xs"
+              class="checkbox checkbox-xs rounded"
               @click="acceptTerm = !acceptTerm"
             />
-            <span class="label-text">我已阅读并同意 服务协议 和 隐私政策</span>
+            <span class="label-text text-base-content/50">
+              我已阅读并同意
+              <a class="link-primary">服务协议</a>
+              和
+              <a class="link-primary">隐私政策</a>
+            </span>
           </label>
         </div>
 
         <div class="form-control w-96 flex flex-col gap-4 items-center">
-          <button class="btn w-96">登陆</button>
-          <div class="text-base-content/50">还未注册？立即注册</div>
+          <button class="w-96 btn btn-primary text-lg font-normal text-base-100">登 陆</button>
+          <div class="text-base-content/50">
+            还未注册？
+            <a class="link-primary">立即注册</a>
+          </div>
         </div>
       </form>
     </div>

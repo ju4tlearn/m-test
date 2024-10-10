@@ -8,9 +8,10 @@ const repos = ref<RepoInfo[]>([])
 
 const getRepos = async () => {
   const token = localStorage.getItem('accessToken') ?? ''
-  await UserService.getUserRepos(token, 'all').then((resp) => {
-    repos.value = resp
-  })
+  const { data } = await UserService.getUserRepos(token, 'all')
+  if (data.value) {
+    repos.value = data.value
+  }
 }
 
 getRepos()
