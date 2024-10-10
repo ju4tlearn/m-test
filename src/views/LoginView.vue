@@ -2,6 +2,10 @@
 import { AuthService } from '@/client/api'
 import router from '@/router'
 import { ref } from 'vue'
+import 'swiper/css/pagination'
+import { Swiper, SwiperSlide } from 'swiper/vue'
+import 'swiper/css'
+import { Autoplay, Pagination } from 'swiper/modules'
 
 const imgs = ['./login/1.png', './login/2.png', './login/3.png']
 const showImg = Math.floor(Math.random() * 3) + 1
@@ -41,9 +45,30 @@ const login = async () => {
 
 <template>
   <div class="h-screen flex">
-    <div class="w-1/2">
-      <img :src="imgs[showImg]" class="h-full w-full object-cover" />
-    </div>
+    <swiper
+      :spaceBetween="30"
+      :centeredSlides="true"
+      :autoplay="{
+        delay: 2500,
+        disableOnInteraction: false
+      }"
+      :pagination="{
+        clickable: true
+      }"
+      :navigation="true"
+      :modules="[Autoplay, Pagination]"
+      class="mySwiper w-1/2"
+    >
+      <swiper-slide>
+        <img :src="imgs[0]" class="h-full w-full object-cover" />
+      </swiper-slide>
+      <swiper-slide>
+        <img :src="imgs[1]" class="h-full w-full object-cover" />
+      </swiper-slide>
+      <swiper-slide>
+        <img :src="imgs[2]" class="h-full w-full object-cover" />
+      </swiper-slide>
+    </swiper>
     <div class="w-1/2 flex flex-col gap-20 items-center justify-center">
       <h1 class="text-4xl">登陆，即刻创造您的应用</h1>
 
