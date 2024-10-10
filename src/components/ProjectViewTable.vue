@@ -92,7 +92,7 @@ const deleteRepo = async (owner: string, repo: string) => {
             <td class="flex items-center gap-2">
               <button
                 class="btn btn-square btn-ghost btn-xs"
-                @click="starRepo(repo.assigner.name, repo.name)"
+                @click="starRepo(repo.assigner.login, repo.name)"
               >
                 <Icon
                   icon="material-symbols:star"
@@ -103,7 +103,7 @@ const deleteRepo = async (owner: string, repo: string) => {
 
               <button
                 class="btn btn-square btn-ghost btn-xs"
-                @click="deleteRepo(repo.assigner.name, repo.name)"
+                @click="deleteRepo(repo.assigner.login, repo.name)"
               >
                 <Icon icon="mdi:rubbish-bin-outline" class="size-4" />
               </button>
